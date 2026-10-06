@@ -1,0 +1,419 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>What, of This Goldfish, Would You Wish? Gist Practice</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Nunito:wght@600;700;800&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+        body {
+            font-family: 'Nunito', sans-serif;
+            background-color: #F8FAFC;
+        }
+        h1, h2, h3, .font-heading {
+            font-family: 'Fredoka', sans-serif;
+        }
+        .chip-btn {
+            transition: all 0.15s ease;
+        }
+        .chip-btn:active {
+            transform: scale(0.95);
+        }
+        .joiner-btn.selected {
+            background-color: #0284C7;
+            color: white;
+            border-color: #0369A1;
+            box-shadow: 0 4px 6px -1px rgba(2, 132, 199, 0.3);
+        }
+        .tab-btn.active {
+            background-color: #0F172A;
+            color: white;
+        }
+    </style>
+</head>
+<body class="text-slate-800 min-h-screen flex flex-col p-3 sm:p-6 max-w-4xl mx-auto">
+
+    <header class="bg-white rounded-3xl p-4 sm:p-5 shadow-sm border border-slate-200 mb-4 flex flex-col sm:flex-row items-center justify-between gap-4">
+        <div class="flex items-center gap-3 text-center sm:text-left">
+            <div class="p-3 bg-sky-100 text-sky-600 rounded-2xl shrink-0">
+                <i data-lucide="fish" class="w-8 h-8"></i>
+            </div>
+            <div>
+                <h1 class="text-2xl sm:text-3xl font-bold text-slate-800 tracking-wide">Gist Practice</h1>
+                <p class="text-xs sm:text-sm font-semibold text-slate-500">Story: <span class="text-sky-600">What, of This Goldfish, Would You Wish?</span></p>
+            </div>
+        </div>
+        <button onclick="toggleStoryGuide()" class="bg-sky-50 hover:bg-sky-100 text-sky-900 font-bold px-4 py-2.5 rounded-2xl border border-sky-200 text-xs sm:text-sm flex items-center gap-2 transition shrink-0">
+            <i data-lucide="book-open-check" class="w-5 h-5 text-sky-600"></i>
+            <span>Story Characters & Guide</span>
+        </button>
+    </header>
+
+    <div id="story-guide" class="hidden bg-sky-50/95 border-2 border-sky-300 rounded-3xl p-5 mb-4 shadow-md space-y-4">
+        <div class="flex justify-between items-center border-b border-sky-200 pb-2">
+            <h2 class="font-heading text-xl text-sky-950 font-bold flex items-center gap-2">
+                <i data-lucide="users" class="w-5 h-5 text-sky-600"></i> Quick Character Guide
+            </h2>
+            <button onclick="toggleStoryGuide()" class="text-sky-900 hover:text-sky-950 font-bold text-sm bg-sky-200/60 px-3 py-1 rounded-xl">
+                ✕ Close
+            </button>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+            <div class="bg-white p-3.5 rounded-2xl border border-sky-200 shadow-sm text-center">
+                <div class="w-10 h-10 bg-amber-100 text-amber-700 rounded-full flex items-center justify-center mx-auto mb-2 font-bold text-lg">👨</div>
+                <h3 class="font-bold text-slate-800">Sergei</h3>
+                <p class="text-xs text-slate-600 mt-1">A quiet Russian immigrant in Israel. He wants to be left alone with his magic fish.</p>
+            </div>
+
+            <div class="bg-white p-3.5 rounded-2xl border border-sky-200 shadow-sm text-center">
+                <div class="w-10 h-10 bg-sky-100 text-sky-700 rounded-full flex items-center justify-center mx-auto mb-2 font-bold text-lg">🎥</div>
+                <h3 class="font-bold text-slate-800">Yonatan</h3>
+                <p class="text-xs text-slate-600 mt-1">A boy filming a movie. He knocks on doors asking people about magic wishes.</p>
+            </div>
+
+            <div class="bg-white p-3.5 rounded-2xl border border-sky-200 shadow-sm text-center">
+                <div class="w-10 h-10 bg-orange-100 text-orange-700 rounded-full flex items-center justify-center mx-auto mb-2 font-bold text-lg">🐠</div>
+                <h3 class="font-bold text-slate-800">The Goldfish</h3>
+                <p class="text-xs text-slate-600 mt-1">A magical talking fish. It grants 3 wishes and talks to Sergei.</p>
+            </div>
+        </div>
+    </div>
+
+    <div id="example-modal" class="hidden fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 flex items-center justify-center p-4">
+        <div class="bg-white rounded-3xl max-w-2xl w-full p-6 shadow-2xl space-y-4 border-2 border-sky-300 max-h-[90vh] overflow-y-auto">
+            <div class="flex justify-between items-center border-b border-slate-100 pb-3">
+                <h2 class="font-heading text-xl text-slate-800 font-bold flex items-center gap-2">
+                    <i data-lucide="sparkles" class="w-6 h-6 text-amber-500"></i> Other Correct Answers
+                </h2>
+                <button onclick="toggleExampleModal()" class="text-slate-500 hover:text-slate-800 font-bold text-sm bg-slate-100 px-3 py-1 rounded-xl">
+                    ✕ Close
+                </button>
+            </div>
+
+            <p class="text-xs sm:text-sm text-slate-600 bg-sky-50 p-3 rounded-2xl border border-sky-200">
+                ⭐ <strong>Great job completing your sentence!</strong> Remember: In reading, there is more than one right answer! Here are 3 different ways other students wrote their Gist:
+            </p>
+
+            <div class="space-y-3">
+                <div class="p-3.5 bg-slate-50 rounded-2xl border border-slate-200 space-y-1">
+                    <span class="text-[11px] font-bold uppercase tracking-wider text-sky-600 bg-sky-100 px-2 py-0.5 rounded-md">Option 1: Sergei's Mistake</span>
+                    <p class="text-sm font-semibold text-slate-800">
+                        In his kitchen in Jaffa, Sergei hit Yonatan with a stove burner <span class="bg-sky-500 text-white px-1.5 py-0.5 rounded font-bold text-xs">because</span> he mistook Yonatan's camera for an attack to steal his magic fish.
+                    </p>
+                </div>
+
+                <div class="p-3.5 bg-slate-50 rounded-2xl border border-slate-200 space-y-1">
+                    <span class="text-[11px] font-bold uppercase tracking-wider text-emerald-600 bg-emerald-100 px-2 py-0.5 rounded-md">Option 2: Sergei's Choice</span>
+                    <p class="text-sm font-semibold text-slate-800">
+                        Sergei wanted to keep his final wish to not be lonely, <span class="bg-sky-500 text-white px-1.5 py-0.5 rounded font-bold text-xs">but</span> he chose to save Yonatan's life instead.
+                    </p>
+                </div>
+
+                <div class="p-3.5 bg-slate-50 rounded-2xl border border-slate-200 space-y-1">
+                    <span class="text-[11px] font-bold uppercase tracking-wider text-purple-600 bg-purple-100 px-2 py-0.5 rounded-md">Option 3: Yonatan's Movie Project</span>
+                    <p class="text-sm font-semibold text-slate-800">
+                        While filming a documentary in Israel, Yonatan knocked on Sergei's door asking for magic wishes, <span class="bg-sky-500 text-white px-1.5 py-0.5 rounded font-bold text-xs">so</span> he triggered an accident that found a real magical goldfish.
+                    </p>
+                </div>
+            </div>
+
+            <div class="pt-2 text-center">
+                <button onclick="toggleExampleModal()" class="bg-slate-900 hover:bg-slate-800 text-white font-bold px-6 py-2.5 rounded-2xl text-sm transition">
+                    Got it, back to my work!
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <div class="bg-white rounded-3xl p-4 shadow-sm border border-slate-200 mb-5 space-y-3">
+        <div class="flex items-center justify-between">
+            <div class="flex items-center gap-2">
+                <i data-lucide="sparkles" class="w-5 h-5 text-sky-500"></i>
+                <h2 class="text-xs font-bold uppercase tracking-wider text-slate-600">Tap words to help type into your active box:</h2>
+            </div>
+        </div>
+
+        <!-- CATEGORY TABS -->
+        <div class="flex flex-wrap gap-1.5 border-b border-slate-100 pb-2">
+            <button onclick="switchChipTab('characters')" id="tab-characters" class="tab-btn active px-3 py-1 rounded-xl text-xs font-bold transition bg-slate-100 text-slate-700">👥 Characters (Who?)</button>
+            <button onclick="switchChipTab('actions')" id="tab-actions" class="tab-btn px-3 py-1 rounded-xl text-xs font-bold transition bg-slate-100 text-slate-700">⚡ Actions (Did What?)</button>
+            <button onclick="switchChipTab('places')" id="tab-places" class="tab-btn px-3 py-1 rounded-xl text-xs font-bold transition bg-slate-100 text-slate-700">📍 Places & Times</button>
+            <button onclick="switchChipTab('feelings')" id="tab-feelings" class="tab-btn px-3 py-1 rounded-xl text-xs font-bold transition bg-slate-100 text-slate-700">❤️ Reasons & Details</button>
+        </div>
+
+        <!-- TAB CONTENT: CHARACTERS -->
+        <div id="chips-characters" class="flex flex-wrap gap-2">
+            <button onclick="addWord('Sergei', 'who1')" class="chip-btn bg-sky-50 hover:bg-sky-100 text-sky-900 border border-sky-200 text-xs font-bold px-3 py-1.5 rounded-xl">+ Sergei</button>
+            <button onclick="addWord('Yonatan', 'who1')" class="chip-btn bg-sky-50 hover:bg-sky-100 text-sky-900 border border-sky-200 text-xs font-bold px-3 py-1.5 rounded-xl">+ Yonatan</button>
+            <button onclick="addWord('the magic goldfish', 'who1')" class="chip-btn bg-sky-50 hover:bg-sky-100 text-sky-900 border border-sky-200 text-xs font-bold px-3 py-1.5 rounded-xl">+ the magic goldfish</button>
+            <button onclick="addWord('a young filmmaker', 'who1')" class="chip-btn bg-sky-50 hover:bg-sky-100 text-sky-900 border border-sky-200 text-xs font-bold px-3 py-1.5 rounded-xl">+ a young filmmaker</button>
+            <button onclick="addWord('a lonely Russian man', 'who1')" class="chip-btn bg-sky-50 hover:bg-sky-100 text-sky-900 border border-sky-200 text-xs font-bold px-3 py-1.5 rounded-xl">+ a lonely Russian man</button>
+            <button onclick="addWord('he', 'who2')" class="chip-btn bg-sky-50 hover:bg-sky-100 text-sky-900 border border-sky-200 text-xs font-bold px-3 py-1.5 rounded-xl">+ he</button>
+            <button onclick="addWord('the fish', 'who2')" class="chip-btn bg-sky-50 hover:bg-sky-100 text-sky-900 border border-sky-200 text-xs font-bold px-3 py-1.5 rounded-xl">+ the fish</button>
+        </div>
+
+        <!-- TAB CONTENT: ACTIONS -->
+        <div id="chips-actions" class="hidden flex flex-wrap gap-2">
+            <button onclick="addWord('hit Yonatan with a stove burner', 'didwhat1')" class="chip-btn bg-emerald-50 hover:bg-emerald-100 text-emerald-900 border border-emerald-200 text-xs font-bold px-3 py-1.5 rounded-xl">+ hit Yonatan with a stove burner</button>
+            <button onclick="addWord('asked people about their wishes', 'didwhat1')" class="chip-btn bg-emerald-50 hover:bg-emerald-100 text-emerald-900 border border-emerald-200 text-xs font-bold px-3 py-1.5 rounded-xl">+ asked people about their wishes</button>
+            <button onclick="addWord('used his last magic wish', 'didwhat2')" class="chip-btn bg-emerald-50 hover:bg-emerald-100 text-emerald-900 border border-emerald-200 text-xs font-bold px-3 py-1.5 rounded-xl">+ used his last magic wish</button>
+            <button onclick="addWord('saved Yonatan\'s life', 'didwhat2')" class="chip-btn bg-emerald-50 hover:bg-emerald-100 text-emerald-900 border border-emerald-200 text-xs font-bold px-3 py-1.5 rounded-xl">+ saved Yonatan's life</button>
+            <button onclick="addWord('knocked on Sergei\'s door', 'didwhat1')" class="chip-btn bg-emerald-50 hover:bg-emerald-100 text-emerald-900 border border-emerald-200 text-xs font-bold px-3 py-1.5 rounded-xl">+ knocked on Sergei's door</button>
+            <button onclick="addWord('wanted to keep his only friend', 'didwhat1')" class="chip-btn bg-emerald-50 hover:bg-emerald-100 text-emerald-900 border border-emerald-200 text-xs font-bold px-3 py-1.5 rounded-xl">+ wanted to keep his only friend</button>
+            <button onclick="addWord('accidental killed Yonatan', 'didwhat1')" class="chip-btn bg-emerald-50 hover:bg-emerald-100 text-emerald-900 border border-emerald-200 text-xs font-bold px-3 py-1.5 rounded-xl">+ accidental killed Yonatan</button>
+        </div>
+
+        <!-- TAB CONTENT: PLACES -->
+        <div id="chips-places" class="hidden flex flex-wrap gap-2">
+            <button onclick="addWord('in his kitchen', 'whenwhere')" class="chip-btn bg-purple-50 hover:bg-purple-100 text-purple-900 border border-purple-200 text-xs font-bold px-3 py-1.5 rounded-xl">+ in his kitchen</button>
+            <button onclick="addWord('in Jaffa, Israel', 'whenwhere')" class="chip-btn bg-purple-50 hover:bg-purple-100 text-purple-900 border border-purple-200 text-xs font-bold px-3 py-1.5 rounded-xl">+ in Jaffa, Israel</button>
+            <button onclick="addWord('while filming a documentary', 'whenwhere')" class="chip-btn bg-purple-50 hover:bg-purple-100 text-purple-900 border border-purple-200 text-xs font-bold px-3 py-1.5 rounded-xl">+ while filming a documentary</button>
+            <button onclick="addWord('at Sergei\'s door', 'whenwhere')" class="chip-btn bg-purple-50 hover:bg-purple-100 text-purple-900 border border-purple-200 text-xs font-bold px-3 py-1.5 rounded-xl">+ at Sergei's door</button>
+            <button onclick="addWord('one day', 'whenwhere')" class="chip-btn bg-purple-50 hover:bg-purple-100 text-purple-900 border border-purple-200 text-xs font-bold px-3 py-1.5 rounded-xl">+ one day</button>
+        </div>
+
+        <!-- TAB CONTENT: REASONS -->
+        <div id="chips-feelings" class="hidden flex flex-wrap gap-2">
+            <button onclick="addWord('because he was scared', 'didwhat2')" class="chip-btn bg-rose-50 hover:bg-rose-100 text-rose-900 border border-rose-200 text-xs font-bold px-3 py-1.5 rounded-xl">+ was scared</button>
+            <button onclick="addWord('to bring Yonatan back to life', 'didwhat2')" class="chip-btn bg-rose-50 hover:bg-rose-100 text-rose-900 border border-rose-200 text-xs font-bold px-3 py-1.5 rounded-xl">+ to bring Yonatan back to life</button>
+            <button onclick="addWord('mistook the camera for a threat', 'didwhat2')" class="chip-btn bg-rose-50 hover:bg-rose-100 text-rose-900 border border-rose-200 text-xs font-bold px-3 py-1.5 rounded-xl">+ mistook the camera for a threat</button>
+            <button onclick="addWord('to make a video', 'didwhat2')" class="chip-btn bg-rose-50 hover:bg-rose-100 text-rose-900 border border-rose-200 text-xs font-bold px-3 py-1.5 rounded-xl">+ to make a video</button>
+        </div>
+    </div>
+
+    <main class="bg-white rounded-3xl p-5 sm:p-6 shadow-sm border-2 border-sky-300 space-y-6">
+
+        <!-- PART 1 -->
+        <div class="space-y-3">
+            <div class="flex items-center gap-2">
+                <span class="bg-sky-600 text-white font-bold text-xs px-2.5 py-1 rounded-lg">PART 1</span>
+                <h3 class="font-heading text-lg font-bold text-slate-800">First Part of Story</h3>
+            </div>
+
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                <!-- Who 1 -->
+                <div>
+                    <label class="block text-xs font-bold text-slate-600 mb-1">1. Who?</label>
+                    <input type="text" id="who1" onfocus="setActiveInput('who1')" oninput="buildSentence()" placeholder="Type Who..." class="w-full text-base font-semibold p-3 rounded-2xl border-2 border-slate-200 focus:border-sky-500 outline-none transition bg-slate-50 focus:bg-white">
+                </div>
+                <!-- Did What 1 -->
+                <div>
+                    <label class="block text-xs font-bold text-slate-600 mb-1">2. Did what?</label>
+                    <input type="text" id="didwhat1" onfocus="setActiveInput('didwhat1')" oninput="buildSentence()" placeholder="Type Did what..." class="w-full text-base font-semibold p-3 rounded-2xl border-2 border-slate-200 focus:border-sky-500 outline-none transition bg-slate-50 focus:bg-white">
+                </div>
+                <!-- When/Where -->
+                <div>
+                    <label class="block text-xs font-bold text-slate-600 mb-1">3. When or Where?</label>
+                    <input type="text" id="whenwhere" onfocus="setActiveInput('whenwhere')" oninput="buildSentence()" placeholder="Type When/Where..." class="w-full text-base font-semibold p-3 rounded-2xl border-2 border-slate-200 focus:border-sky-500 outline-none transition bg-slate-50 focus:bg-white">
+                </div>
+            </div>
+        </div>
+
+        <!-- JOINER SELECTION -->
+        <div class="bg-sky-50 rounded-2xl p-4 border border-sky-200 space-y-2">
+            <label class="block text-xs font-bold text-sky-950 uppercase tracking-wide">
+                4. Choose a Joining Word:
+            </label>
+            <div class="grid grid-cols-2 sm:grid-cols-4 gap-2">
+                <button type="button" onclick="selectJoiner('because')" id="j-because" class="joiner-btn selected p-2.5 rounded-xl border-2 border-sky-300 font-bold text-sm bg-white text-slate-700 transition flex flex-col items-center">
+                    <span>because</span>
+                    <span class="text-[10px] font-normal opacity-80">(gives reason)</span>
+                </button>
+                <button type="button" onclick="selectJoiner('but')" id="j-but" class="joiner-btn p-2.5 rounded-xl border-2 border-sky-300 font-bold text-sm bg-white text-slate-700 transition flex flex-col items-center">
+                    <span>but</span>
+                    <span class="text-[10px] font-normal opacity-80">(shows problem)</span>
+                </button>
+                <button type="button" onclick="selectJoiner('so')" id="j-so" class="joiner-btn p-2.5 rounded-xl border-2 border-sky-300 font-bold text-sm bg-white text-slate-700 transition flex flex-col items-center">
+                    <span>so</span>
+                    <span class="text-[10px] font-normal opacity-80">(shows result)</span>
+                </button>
+                <button type="button" onclick="selectJoiner('although')" id="j-although" class="joiner-btn p-2.5 rounded-xl border-2 border-sky-300 font-bold text-sm bg-white text-slate-700 transition flex flex-col items-center">
+                    <span>although</span>
+                    <span class="text-[10px] font-normal opacity-80">(surprising)</span>
+                </button>
+            </div>
+        </div>
+
+        <!-- PART 2 -->
+        <div class="space-y-3">
+            <div class="flex items-center gap-2">
+                <span class="bg-indigo-600 text-white font-bold text-xs px-2.5 py-1 rounded-lg">PART 2</span>
+                <h3 class="font-heading text-lg font-bold text-slate-800">Second Part of Story</h3>
+            </div>
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                <!-- Who 2 -->
+                <div>
+                    <label class="block text-xs font-bold text-slate-600 mb-1">5. Who?</label>
+                    <input type="text" id="who2" onfocus="setActiveInput('who2')" oninput="buildSentence()" placeholder="Type Who..." class="w-full text-base font-semibold p-3 rounded-2xl border-2 border-slate-200 focus:border-indigo-500 outline-none transition bg-slate-50 focus:bg-white">
+                </div>
+                <!-- Did What 2 -->
+                <div>
+                    <label class="block text-xs font-bold text-slate-600 mb-1">6. Did what?</label>
+                    <input type="text" id="didwhat2" onfocus="setActiveInput('didwhat2')" oninput="buildSentence()" placeholder="Type Did what..." class="w-full text-base font-semibold p-3 rounded-2xl border-2 border-slate-200 focus:border-indigo-500 outline-none transition bg-slate-50 focus:bg-white">
+                </div>
+            </div>
+        </div>
+
+    </main>
+
+    <div class="mt-6 bg-slate-900 text-white rounded-3xl p-5 shadow-lg border border-slate-800 space-y-4">
+        <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between border-b border-slate-800 pb-3 gap-2">
+            <span class="font-heading text-sky-400 font-bold text-base flex items-center gap-2">
+                <i data-lucide="check-circle-2" class="w-5 h-5"></i> My Complete Gist Sentence:
+            </span>
+            <div class="flex items-center gap-2">
+                <button id="show-examples-btn" onclick="toggleExampleModal()" disabled class="bg-amber-500/20 text-amber-300 border border-amber-500/30 font-bold text-xs px-3 py-1.5 rounded-xl opacity-50 cursor-not-allowed transition flex items-center gap-1.5">
+                    <i data-lucide="sparkles" class="w-4 h-4"></i> See Example Sentences
+                </button>
+                <button onclick="clearAll()" class="text-xs text-slate-400 hover:text-white underline ml-2">
+                    Clear All
+                </button>
+            </div>
+        </div>
+
+        <div id="sentence-output" class="text-lg sm:text-xl font-medium leading-relaxed min-h-[60px] flex items-center text-slate-200">
+            <span class="text-slate-500 text-base italic">Type in the boxes above to create your sentence!</span>
+        </div>
+
+        <div class="flex flex-wrap items-center justify-end gap-2 pt-2">
+            <button onclick="copySentence()" class="bg-sky-600 hover:bg-sky-500 text-white text-xs font-bold px-4 py-2 rounded-xl transition flex items-center gap-1.5">
+                <i data-lucide="copy" class="w-4 h-4"></i> Copy Sentence
+            </button>
+            <button onclick="window.print()" class="bg-slate-700 hover:bg-slate-600 text-white text-xs font-bold px-4 py-2 rounded-xl transition flex items-center gap-1.5">
+                <i data-lucide="printer" class="w-4 h-4"></i> Print
+            </button>
+        </div>
+    </div>
+
+    <script>
+        let selectedJoiner = 'because';
+        let currentActiveInput = 'who1';
+
+        document.addEventListener('DOMContentLoaded', () => {
+            lucide.createIcons();
+            clearAll();
+        });
+
+        function setActiveInput(id) {
+            currentActiveInput = id;
+        }
+
+        function switchChipTab(tabName) {
+            document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+            document.getElementById(`tab-${tabName}`).classList.add('active');
+
+            ['characters', 'actions', 'places', 'feelings'].forEach(t => {
+                document.getElementById(`chips-${t}`).classList.add('hidden');
+            });
+            document.getElementById(`chips-${tabName}`).classList.remove('hidden');
+        }
+
+        function addWord(text, fallbackInputId) {
+            let targetId = currentActiveInput;
+            
+            if (!targetId || !document.getElementById(targetId)) {
+                targetId = fallbackInputId || 'who1';
+            }
+
+            const el = document.getElementById(targetId);
+            if (el) {
+                if (el.value.trim().length > 0 && !el.value.endsWith(' ')) {
+                    el.value += ' ' + text;
+                } else {
+                    el.value += text;
+                }
+                buildSentence();
+            }
+        }
+
+        function selectJoiner(word) {
+            selectedJoiner = word;
+            document.querySelectorAll('.joiner-btn').forEach(btn => btn.classList.remove('selected'));
+            const btn = document.getElementById(`j-${word}`);
+            if (btn) btn.classList.add('selected');
+            buildSentence();
+        }
+
+        function toggleStoryGuide() {
+            document.getElementById('story-guide').classList.toggle('hidden');
+        }
+
+        function toggleExampleModal() {
+            const modal = document.getElementById('example-modal');
+            modal.classList.toggle('hidden');
+        }
+
+        function clearAll() {
+            document.getElementById('who1').value = '';
+            document.getElementById('didwhat1').value = '';
+            document.getElementById('whenwhere').value = '';
+            document.getElementById('who2').value = '';
+            document.getElementById('didwhat2').value = '';
+            selectJoiner('because');
+            buildSentence();
+        }
+
+        function buildSentence() {
+            const who1 = document.getElementById('who1').value.trim();
+            const didwhat1 = document.getElementById('didwhat1').value.trim();
+            const whenwhere = document.getElementById('whenwhere').value.trim();
+            const who2 = document.getElementById('who2').value.trim();
+            const didwhat2 = document.getElementById('didwhat2').value.trim();
+
+            const output = document.getElementById('sentence-output');
+            const exBtn = document.getElementById('show-examples-btn');
+
+            if (!who1 && !didwhat1 && !who2 && !didwhat2) {
+                output.innerHTML = `<span class="text-slate-500 text-base italic">Type in the boxes above to create your sentence!</span>`;
+                exBtn.disabled = true;
+                exBtn.classList.add('opacity-50', 'cursor-not-allowed');
+                exBtn.classList.remove('hover:bg-amber-500/30', 'cursor-pointer');
+                return;
+            }
+
+            function cap(str) {
+                return str ? str.charAt(0).toUpperCase() + str.slice(1) : '';
+            }
+
+            let part1Text = `${cap(who1)} ${didwhat1}`.trim();
+            if (whenwhere) {
+                part1Text += ` ${whenwhere}`;
+            }
+
+            let joinerHtml = `<span class="bg-sky-500 text-white font-extrabold px-2 py-0.5 rounded-md mx-1 text-base">${selectedJoiner}</span>`;
+            let part2Text = `${who2} ${didwhat2}`.trim();
+
+            output.innerHTML = `${part1Text} ${joinerHtml} ${part2Text}.`;
+
+            // Enable the example sentences button if both parts have content
+            if ((who1 || didwhat1) && (who2 || didwhat2)) {
+                exBtn.disabled = false;
+                exBtn.classList.remove('opacity-50', 'cursor-not-allowed');
+                exBtn.classList.add('hover:bg-amber-500/30', 'cursor-pointer');
+            } else {
+                exBtn.disabled = true;
+                exBtn.classList.add('opacity-50', 'cursor-not-allowed');
+                exBtn.classList.remove('hover:bg-amber-500/30', 'cursor-pointer');
+            }
+        }
+
+        function copySentence() {
+            const rawText = document.getElementById('sentence-output').innerText;
+            if (!rawText || rawText.includes('Type in the boxes')) return;
+
+            const dummy = document.createElement("textarea");
+            document.body.appendChild(dummy);
+            dummy.value = rawText;
+            dummy.select();
+            document.execCommand("copy");
+            document.body.removeChild(dummy);
+
+            alert("Copied your Gist sentence!");
+        }
+    </script>
+</body>
+</html>
